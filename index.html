@@ -18,13 +18,16 @@
         :root {
             --primary: #0284c7;
             --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
             --secondary: #0ea5e9; 
             --text-dark: #0f172a;
             --text-light: #475569;
             --bg-white: #ffffff;
             --bg-offwhite: #f8fafc;
-            --radius: 12px; /* Slightly smaller radius for compact feel */
-            --shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            --radius: 12px; 
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 15px -3px rgba(2, 132, 199, 0.2);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -40,10 +43,11 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            font-size: 14px; /* Base font size slightly smaller for density */
+            font-size: 14px; 
+            -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--text-dark); line-height: 1.2; }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--text-dark); line-height: 1.2; letter-spacing: -0.02em; }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
         img { max-width: 100%; height: auto; display: block; object-fit: cover; }
@@ -54,15 +58,28 @@
         header {
             position: sticky; top: 0; z-index: 1000;
             background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid #f1f5f9;
-            padding: 10px 0; /* Reduced padding */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            padding: 12px 0; 
+            box-shadow: var(--shadow-sm);
+            transition: padding 0.3s ease;
         }
+
+        header.shrink { padding: 8px 0; } 
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         
-        .logo { font-size: 1.2rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
+        .logo { 
+            font-size: 1.25rem; 
+            font-weight: 800; 
+            color: var(--primary); 
+            display: flex; align-items: center; gap: 6px; 
+            cursor: pointer; 
+            white-space: nowrap; 
+            transition: font-size 0.3s ease;
+        }
+        header.shrink .logo { font-size: 1.1rem; }
+
         .logo i { color: var(--secondary); font-size: 1.2rem; }
 
         .nav-menu { display: flex; gap: 20px; align-items: center; }
@@ -71,44 +88,50 @@
             font-weight: 600; font-size: 0.85rem; color: var(--text-light);
             position: relative; cursor: pointer; padding: 5px 0;
             white-space: nowrap;
+            letter-spacing: 0.02em;
         }
 
         .nav-link:hover, .nav-link.active { color: var(--primary); }
         
         .nav-link::after {
             content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0;
-            background: var(--secondary); transition: width 0.3s ease; border-radius: 2px;
+            background: var(--primary); transition: width 0.3s ease; border-radius: 2px;
         }
         
         .nav-link.active::after { width: 100%; }
 
         /* Language Switcher */
         .lang-switch {
-            display: flex; align-items: center; gap: 8px;
-            font-size: 0.85rem; font-weight: 700; color: var(--primary);
-            cursor: pointer; padding: 5px 10px; background: #e0f2fe; border-radius: 20px;
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.75rem; font-weight: 700; color: var(--primary);
+            cursor: pointer; padding: 6px 12px; background: var(--primary-light); border-radius: 20px;
+            text-transform: uppercase;
+            transition: var(--transition);
         }
-        .lang-switch:hover { background: #bae6fd; }
+        .lang-switch:hover { background: #bae6fd; transform: translateY(-1px); }
 
-        /* --- COMPACT BUTTONS --- */
+        /* --- BUTTONS --- */
         .btn-modern {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white; 
-            padding: 10px 24px; /* Smaller padding */
+            padding: 10px 26px; 
             border-radius: 30px; 
             font-weight: 600; font-size: 0.85rem;
             border: none; cursor: pointer;
-            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
-            display: inline-flex; align-items: center; gap: 6px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+            display: inline-flex; align-items: center; gap: 8px;
             position: relative; overflow: hidden;
             transition: var(--transition);
             white-space: nowrap;
+            user-select: none;
         }
 
         .btn-modern:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
         }
+        
+        .btn-modern:active { transform: translateY(0); }
 
         /* Map Buttons */
         .btn-map-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
@@ -119,6 +142,7 @@
             padding: 10px; border-radius: 6px; font-weight: 600; font-size: 0.8rem;
             transition: var(--transition); text-align: center;
             min-height: 40px;
+            cursor: pointer;
         }
 
         .btn-google { background: #4285F4; color: white; box-shadow: 0 2px 5px rgba(66, 133, 244, 0.3); }
@@ -144,13 +168,13 @@
 
         /* --- HOME PAGE STYLES --- */
         .hero-section {
-            padding: 60px 0; /* Reduced from 100px */
+            padding: 80px 0; 
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px; /* Reduced gap */
+            gap: 40px; 
             align-items: center;
         }
-        .hero-text h1 { font-size: 2.5rem; margin-bottom: 15px; color: var(--primary-dark); } /* Smaller title */
+        .hero-text h1 { font-size: 2.5rem; margin-bottom: 15px; color: var(--primary-dark); } 
         .hero-text p { font-size: 1rem; color: var(--text-light); margin-bottom: 25px; }
         
         .hero-img { 
@@ -158,21 +182,11 @@
         }
         .hero-img img { 
             border-radius: 16px; 
-            box-shadow: 10px 10px 0px #e2e8f0; /* Smaller shadow */
+            box-shadow: 12px 12px 0px var(--primary-light); 
             transform: rotate(-1deg);
-            transition: transform 0.5s ease;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
         }
-        .hero-img:hover img { transform: rotate(0deg); }
-        
-        .features { padding: 50px 0; background: var(--bg-offwhite); }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .feature-card { 
-            background: white; padding: 25px 20px; border-radius: var(--radius); 
-            box-shadow: var(--shadow); text-align: center; transition: 0.3s;
-        }
-        .feature-card:hover { transform: translateY(-5px); }
-        .feature-icon { font-size: 1.8rem; color: var(--primary); margin-bottom: 15px; background: #e0f2fe; width: 60px; height: 60px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
-        .feature-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .hero-img:hover img { transform: rotate(0deg); box-shadow: 8px 8px 0px var(--secondary); }
 
         /* --- ABOUT PAGE STYLES --- */
         .about-hero { padding: 60px 0 20px; text-align: center; }
@@ -190,9 +204,9 @@
             border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 25px 20px;
             transition: var(--transition); background: white;
         }
-        .service-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow); }
+        .service-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow-md); }
         .service-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
-        .s-icon { font-size: 1.5rem; color: var(--secondary); margin-bottom: 15px; background: #f0f9ff; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
+        .s-icon { font-size: 1.5rem; color: var(--secondary); margin-bottom: 15px; background: var(--primary-light); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
 
         /* --- BOOK PAGE STYLES --- */
         .book-grid {
@@ -203,18 +217,18 @@
         
         .map-section {
             background: white; border-radius: var(--radius); overflow: hidden;
-            box-shadow: var(--shadow); border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-md); border: 1px solid #e2e8f0;
         }
         .map-header { padding: 20px; background: var(--primary); color: white; }
         .map-header h3 { color: white; margin: 0; font-size: 1.2rem; }
         .map-header p { font-size: 0.85rem; opacity: 0.9; margin: 5px 0 0 0; }
         
-        .map-frame { width: 100%; height: 300px; border: none; } /* Reduced height */
+        .map-frame { width: 100%; height: 300px; border: none; } 
         .map-actions { padding: 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; }
 
         .form-section {
             background: white; border-radius: var(--radius); overflow: hidden;
-            box-shadow: var(--shadow); border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-md); border: 1px solid #e2e8f0;
             padding: 30px;
         }
         .form-section h3 { margin-bottom: 20px; font-size: 1.2rem; }
@@ -222,12 +236,16 @@
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-dark); }
         .input-group input, .input-group select, .input-group textarea {
-            width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;
-            font-family: inherit; transition: 0.3s; background: #fdfdfd;
-            font-size: 14px;
+            width: 100%; padding: 11px; border: 1px solid #e2e8f0; border-radius: 8px;
+            font-family: inherit; transition: var(--transition); background: #fdfdfd;
+            font-size: 14px; color: var(--text-dark);
         }
+        
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus { 
-            border-color: var(--primary); outline: none; background: #fff;
+            border-color: var(--primary); 
+            outline: none; 
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
         }
 
         /* Footer */
@@ -238,18 +256,25 @@
             position: fixed; bottom: 20px; right: 20px; background: #10b981; color: white;
             padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             display: flex; align-items: center; gap: 10px; 
-            transform: translateY(150%); transition: 0.4s ease; 
+            transform: translateY(150%); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             z-index: 2000; border-left: 4px solid #059669;
             max-width: 90%;
         }
         .toast.show { transform: translateY(0); }
-        .toast-content h4 { margin:0; font-size: 0.9rem; color: white; }
+        .toast-content h4 { margin:0; font-size: 0.9rem; color: white; font-weight: 700; }
         .toast-content p { margin:0; font-size: 0.8rem; opacity: 0.9; }
 
-        /* =========================================
-           RESPONSIVE MEDIA QUERIES
-           ========================================= */
+        /* Spinner for Button */
+        .spinner {
+            width: 16px; height: 16px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* Responsive */
         @media (max-width: 900px) {
             .hero-section { gap: 20px; }
             .hero-text h1 { font-size: 2rem; }
@@ -259,27 +284,29 @@
 
         @media (max-width: 768px) {
             .nav-menu {
-                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
-                background: white; flex-direction: column; padding-top: 70px;
-                box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.4s;
+                position: fixed; top: 0; right: -100%; width: 75%; height: 100vh;
+                background: rgba(255,255,255,0.98); 
+                backdrop-filter: blur(10px);
+                flex-direction: column; padding-top: 70px;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s;
                 align-items: flex-start; padding-left: 30px;
             }
             .nav-menu.active { right: 0; }
-            .nav-menu li { width: 100%; margin-bottom: 15px; }
+            .nav-menu li { width: 100%; margin-bottom: 20px; }
             .mobile-toggle { display: block; z-index: 1001; }
             
             .hero-section { grid-template-columns: 1fr; text-align: center; padding: 40px 0; gap: 20px; }
             .hero-text h1 { font-size: 1.8rem; }
             .hero-text p { font-size: 0.95rem; margin: 0 auto 20px; }
             .hero-img { max-width: 250px; margin: 0 auto; }
-            .hero-img img { transform: rotate(0deg); box-shadow: 5px 5px 0px #e2e8f0; }
+            .hero-img img { transform: rotate(0deg); box-shadow: 8px 8px 0px var(--primary-light); }
 
             .about-content { grid-template-columns: 1fr; gap: 30px; text-align: center; }
             .about-img { margin-bottom: 20px; }
             .check-list li { justify-content: center; }
             
-            .features { padding: 40px 0; }
             .services-hero { padding: 40px 0; }
+            .services-hero h1 { font-size: 1.8rem; }
             .service-grid-container { padding: 30px 0; grid-template-columns: 1fr; }
             
             .btn-map-group { flex-direction: column; }
@@ -290,7 +317,7 @@
 <body>
 
     <!-- Header Navigation -->
-    <header>
+    <header id="mainHeader">
         <div class="container nav-container">
             <div class="logo" onclick="switchPage('home')">
                 <i class="fa-solid fa-tooth"></i> Klinik Pergigian Azam
@@ -305,13 +332,13 @@
                     <!-- Language Switcher -->
                     <li>
                         <div class="lang-switch" onclick="toggleLanguage()">
-                            <i class="fa-solid fa-language"></i> <span id="current-lang">EN</span>
+                            <i class="fa-solid fa-globe"></i> <span id="current-lang">EN</span>
                         </div>
                     </li>
                     <li><a class="nav-link active" onclick="switchPage('home')" data-i18n="nav-home">Home</a></li>
                     <li><a class="nav-link" onclick="switchPage('about')" data-i18n="nav-about">About</a></li>
                     <li><a class="nav-link" onclick="switchPage('services')" data-i18n="nav-services">Services</a></li>
-                    <li><button class="btn-modern" onclick="switchPage('book')"><span data-i18n="btn-book">Book Now</span> <i class="fa-solid fa-arrow-right"></i></button></li>
+                    <li><button class="btn-modern" onclick="switchPage('book')"><span data-i18n="btn-book">Book Now</span> <i class="fa-solid fa-calendar-check"></i></button></li>
                 </ul>
             </nav>
         </div>
@@ -333,28 +360,7 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="features">
-                <div class="container">
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon"><i class="fa-solid fa-user-doctor"></i></div>
-                            <h3 data-i18n="feat-1-title">Expert Dentists</h3>
-                            <p style="margin-top:5px; color:var(--text-light); font-size:0.85rem;" data-i18n="feat-1-desc">Qualified professionals with experience.</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
-                            <h3 data-i18n="feat-2-title">Convenient Hours</h3>
-                            <p style="margin-top:5px; color:var(--text-light); font-size:0.85rem;" data-i18n="feat-2-desc">Open Mon-Sat with flexible times.</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon"><i class="fa-solid fa-shield-heart"></i></div>
-                            <h3 data-i18n="feat-3-title">Sterile & Safe</h3>
-                            <p style="margin-top:5px; color:var(--text-light); font-size:0.85rem;" data-i18n="feat-3-desc">High standards of hygiene & care.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Features Section Removed as requested -->
         </section>
 
         <!-- ==================== PAGE: ABOUT ==================== -->
@@ -367,12 +373,12 @@
 
                 <div class="about-content">
                     <div class="about-img">
-                        <img src="https://picsum.photos/seed/dentalinterior/600/600" alt="Clinic Interior" style="border-radius: 20px; box-shadow: var(--shadow);">
+                        <img src="https://picsum.photos/seed/dentalinterior/600/600" alt="Clinic Interior" style="border-radius: 20px; box-shadow: var(--shadow-md);">
                     </div>
                     <div class="about-text">
                         <h2 style="font-size: 1.6rem; margin-bottom: 15px;" data-i18n="about-who">Who We Are</h2>
                         <p class="story-text" style="margin-bottom: 20px;" data-i18n="about-story">
-                            Located at <strong>Pusat Komersial Saujana</strong>, we offer state-of-the-art facilities. We believe visiting the dentist shouldn't be scary. Our friendly team makes every visit pleasant.
+                            Located at <strong>Pusat Komersial Saujana</strong>, we offer state-of-the-art facilities. We believe visiting dentist shouldn't be scary. Our friendly team makes every visit pleasant.
                         </p>
                         <ul class="check-list">
                             <li><i class="fa-solid fa-circle-check"></i> <span data-i18n="about-point-1">Latest Digital X-Ray</span></li>
@@ -433,7 +439,6 @@
             <div class="container">
                 <div class="book-grid">
                     
-                    <!-- Left Column: Map -->
                     <div class="map-section">
                         <div class="map-header">
                             <h3 data-i18n="map-title">Find Us</h3>
@@ -461,7 +466,6 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: Form -->
                     <div class="form-section">
                         <h3 data-i18n="form-title">Appointment Request</h3>
                         
@@ -481,8 +485,9 @@
 
                             <div class="input-group">
                                 <label data-i18n="lbl-date">Select Date & Time</label>
+                                <!-- Logic in JS will auto-correct this -->
                                 <input type="datetime-local" name="date" id="dateInput" required>
-                                <small style="color: var(--text-light); font-size: 0.75rem;" data-i18n="lbl-date-hint">*Cannot select past date</small>
+                                <small style="color: var(--text-light); font-size: 0.75rem;" data-i18n="lbl-date-hint">*Past dates/times will auto-correct to now</small>
                             </div>
 
                             <div class="input-group">
@@ -535,20 +540,14 @@
                 "nav-home": "Home",
                 "nav-about": "About",
                 "nav-services": "Services",
-                "btn-book": "Book Now",
+                "btn-book": "Book Now", 
                 "hero-title": "Your Brightest Smile Starts Here",
                 "hero-desc": "Experience premium dental care in Sungai Petani. We combine expert treatment with a gentle touch to ensure your comfort.",
                 "btn-book-main": "Book Appointment",
-                "feat-1-title": "Expert Dentists",
-                "feat-1-desc": "Qualified professionals with experience.",
-                "feat-2-title": "Convenient Hours",
-                "feat-2-desc": "Open Mon-Sat with flexible times.",
-                "feat-3-title": "Sterile & Safe",
-                "feat-3-desc": "High standards of hygiene & care.",
                 "about-title": "About Our Clinic",
                 "about-subtitle": "Dedicated to oral health in Sungai Petani.",
                 "about-who": "Who We Are",
-                "about-story": "Located at <strong>Pusat Komersial Saujana</strong>, we offer state-of-the-art facilities. We believe visiting the dentist shouldn't be scary. Our friendly team makes every visit pleasant.",
+                "about-story": "Located at <strong>Pusat Komersial Saujana</strong>, we offer state-of-the-art facilities. We believe visiting dentist shouldn't be scary. Our friendly team makes every visit pleasant.",
                 "about-point-1": "Latest Digital X-Ray",
                 "about-point-2": "Comfortable Waiting Area",
                 "about-point-3": "Ample Parking",
@@ -572,7 +571,7 @@
                 "lbl-name": "Your Name",
                 "lbl-phone": "Phone Number",
                 "lbl-date": "Select Date & Time",
-                "lbl-date-hint": "*Cannot select past date",
+                "lbl-date-hint": "*Past dates/times will auto-correct to now",
                 "lbl-service": "Service",
                 "opt-checkup": "General Checkup",
                 "opt-scaling": "Scaling",
@@ -586,33 +585,27 @@
             },
             bm: {
                 "current-lang": "EN",
-                "nav-home": "Laman Utama",
+                "nav-home": "Utama",
                 "nav-about": "Tentang",
                 "nav-services": "Perkhidmatan",
-                "btn-book": "Tempah Sekarang",
-                "hero-title": "Senyuman Paling Cer Bermula Di Sini",
-                "hero-desc": "Alami perawatan pergigian premium di Sungai Petani. Kami menggabungkan rawatan pakar dengan sentuhan lembut untuk keselesaan anda.",
-                "btn-book-main": "Tempah Temujanji",
-                "feat-1-title": "Doktor Pakar",
-                "feat-1-desc": "Profesional yang berkelayakan.",
-                "feat-2-title": "Waktu Mudah",
-                "feat-2-desc": "Buka Isn-Sabtu dengan masa fleksibel.",
-                "feat-3-title": "Steril & Selamat",
-                "feat-3-desc": "Piawaian kebersihan yang tinggi.",
-                "about-title": "Tentang Klinik Kami",
+                "btn-book": "Temujanji",
+                "hero-title": "Seri Senyuman Bermula Di Sini", 
+                "hero-desc": "Nikmati perawatan pergigian premium di Sungai Petani. Kami menggabungkan rawatan pakar dengan sentuhan lembut.",
+                "btn-book-main": "Buat Temujanji",
+                "about-title": "Tentang Klinik",
                 "about-subtitle": "Dedikasi untuk kesihatan mulut di Sungai Petani.",
                 "about-who": "Siapa Kami",
-                "about-story": "Terletak di <strong>Pusat Komersial Saujana</strong>, kami menawarkan kemudahan canggih. Kami percaya mengunjungi doktor gigi tidak perlu menakutkan. Pasukan kami yang mesra menjadikan setiap lawatan menyeronokkan.",
+                "about-story": "Terletak di <strong>Pusat Komersial Saujana</strong>, kami menawarkan kemudahan canggih. Kunjungan ke doktor gigi tidak perlu menakutkan.",
                 "about-point-1": "X-Ray Digital Terkini",
                 "about-point-2": "Kawalan Menunggu Selesa",
                 "about-point-3": "Tempat Parking Luas",
                 "services-title": "Perkhidmatan Kami",
-                "services-subtitle": "Penjagaan profesional mengikut keperluan anda.",
+                "services-subtitle": "Penjagaan profesional mengikut keperluan.",
                 "srv-1": "Pemutihan Gigi",
                 "srv-1-desc": "Senyuman lebih cerah dengan rawatan profesional.",
                 "srv-2": "Scaling & Pemolesan",
                 "srv-2-desc": "Pembersihan dalam untuk gusi yang sihat.",
-                "srv-3": "Gigi & Pendakap (Braces)",
+                "srv-3": "Gigi & Pendakap",
                 "srv-3-desc": "Luruskan gigi untuk rupa yang sempurna.",
                 "srv-4": "Rawatan Salur Akar",
                 "srv-4-desc": "Terapi pakar untuk menyelamatkan gigi rosak.",
@@ -626,7 +619,7 @@
                 "lbl-name": "Nama Anda",
                 "lbl-phone": "Nombor Telefon",
                 "lbl-date": "Pilih Tarikh & Masa",
-                "lbl-date-hint": "*Tidak boleh memilih tarikh lepas",
+                "lbl-date-hint": "*Tarikh lama akan ditukar ke masa sekarang",
                 "lbl-service": "Perkhidmatan",
                 "opt-checkup": "Pemeriksaan Umum",
                 "opt-scaling": "Scaling",
@@ -636,7 +629,7 @@
                 "lbl-msg": "Mesej (Pilihan)",
                 "btn-submit": "Hantar Permintaan",
                 "toast-title": "Permintaan Dihantar!",
-                "toast-msg": "Sebaik sahaja Slot tersedia, pasukan kami akan menghubungi anda sebentar lagi."
+                "toast-msg": "Sebaik sahaja Slot tersedia, pasukan kami akan menghubungi anda."
             }
         };
 
@@ -648,19 +641,26 @@
         }
 
         function updateContent() {
-            // Update text elements
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(translations[currentLang][key]) {
                     el.innerHTML = translations[currentLang][key];
                 }
             });
-            
-            // Update Language Button Text
             document.getElementById('current-lang').innerText = translations[currentLang]['current-lang'];
         }
 
-        // 2. Page Switching
+        // 2. Header Shrink Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('shrink');
+            } else {
+                header.classList.remove('shrink');
+            }
+        });
+
+        // 3. Page Switching
         function switchPage(pageId) {
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
@@ -682,7 +682,7 @@
             }
         }
 
-        // 3. Mobile Menu
+        // 4. Mobile Menu
         const mobileToggle = document.getElementById('mobileToggle');
         const navMenu = document.getElementById('navMenu');
 
@@ -698,26 +698,55 @@
             }
         });
 
-        // 4. Form Handling
+        // 5. Smart Date & Time Logic
         const dateInput = document.getElementById('dateInput');
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        dateInput.min = now.toISOString().slice(0,16);
+        
+        // Helper to get current time formatted for input
+        function getCurrentTimeValue() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            return now.toISOString().slice(0, 16);
+        }
 
+        // Initialize with current time
+        dateInput.min = getCurrentTimeValue();
+
+        // Auto-Correction Listener
+        dateInput.addEventListener('input', function(e) {
+            const userDate = new Date(this.value);
+            const currentDate = new Date();
+
+            // If user selected a date/time that is in the past
+            if (userDate < currentDate) {
+                // Flash visual cue (optional) and reset
+                this.style.borderColor = "#ef4444"; // Red flash
+                setTimeout(() => this.style.borderColor = "#e2e8f0", 300);
+
+                // Reset to current time
+                this.value = getCurrentTimeValue();
+            }
+        });
+
+        // 6. Form Handling
         const form = document.getElementById('appointmentForm');
         const toast = document.getElementById('toast');
 
         form.addEventListener('submit', function(e) {
             const btn = form.querySelector('button');
-            const originalText = btn.innerText;
-            btn.innerText = "Sending...";
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<div class="spinner"></div>';
+            btn.style.opacity = '0.7';
             btn.disabled = true;
 
             setTimeout(() => {
                 toast.classList.add('show');
-                btn.innerText = originalText;
+                btn.innerHTML = originalContent;
+                btn.style.opacity = '1';
                 btn.disabled = false;
                 form.reset();
+                // Reset date input min to current
+                dateInput.min = getCurrentTimeValue();
                 setTimeout(() => { toast.classList.remove('show'); }, 5000);
             }, 1000);
         });
