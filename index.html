@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klinik Pergigian Azam</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables --- */
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --secondary: #0ea5e9; /* Lighter Blue */
+            --accent: #38bdf8;
+            --text-dark: #0f172a;
+            --text-light: #475569;
+            --bg-white: #ffffff;
+            --bg-offwhite: #f8fafc;
+            --radius: 16px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- Reset & Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--text-dark); line-height: 1.2; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+        
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- Header & Navigation --- */
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #f1f5f9;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .logo i { color: var(--secondary); font-size: 1.4rem; }
+
+        .nav-menu { display: flex; gap: 30px; align-items: center; }
+        
+        .nav-link {
+            font-weight: 600; font-size: 0.95rem; color: var(--text-light);
+            position: relative; cursor: pointer; padding: 5px 0;
+        }
+
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+        
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 0;
+            background: var(--secondary); transition: width 0.3s ease; border-radius: 2px;
+        }
+        
+        .nav-link.active::after { width: 100%; }
+
+        /* --- MODERN BUTTONS --- */
+        .btn-modern {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; 
+            padding: 12px 30px; 
+            border-radius: 50px; 
+            font-weight: 600; font-size: 0.95rem;
+            border: none; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+            display: inline-flex; align-items: center; gap: 8px;
+            position: relative; overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(2, 132, 199, 0.5);
+        }
+
+        .btn-modern:active {
+            transform: translateY(-1px);
+        }
+
+        /* Map Buttons */
+        .btn-map-group {
+            display: flex; gap: 15px; margin-top: 15px;
+        }
+        
+        .btn-google, .btn-waze {
+            flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+            transition: var(--transition); text-align: center;
+        }
+
+        .btn-google {
+            background: #4285F4; color: white;
+            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+        }
+        .btn-google:hover { background: #3367d6; transform: translateY(-2px); }
+
+        .btn-waze {
+            background: #33CCFF; color: white;
+            box-shadow: 0 4px 10px rgba(51, 204, 255, 0.3);
+        }
+        .btn-waze:hover { background: #29b6e8; transform: translateY(-2px); }
+
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+        /* --- Page Switching Logic --- */
+        .page {
+            display: none; 
+            animation: fadeInPage 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            flex: 1;
+        }
+        .page.active { display: block; }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- HOME PAGE STYLES --- */
+        .hero-section {
+            padding: 100px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero-text h1 { font-size: 3.2rem; margin-bottom: 20px; color: var(--primary-dark); }
+        .hero-text p { font-size: 1.15rem; color: var(--text-light); margin-bottom: 35px; max-width: 90%; }
+        
+        .hero-img { 
+            position: relative; 
+            animation: float 6s ease-in-out infinite;
+        }
+        .hero-img img { 
+            border-radius: 24px; 
+            box-shadow: 20px 20px 0px #e2e8f0;
+            transform: rotate(-2deg);
+            transition: transform 0.5s ease;
+        }
+        .hero-img:hover img { transform: rotate(0deg); }
+        
+        .features { padding: 80px 0; background: var(--bg-offwhite); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .feature-card { 
+            background: white; padding: 40px 30px; border-radius: var(--radius); 
+            box-shadow: var(--shadow); text-align: center; transition: 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-10px); }
+        .feature-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; background: #e0f2fe; width: 80px; height: 80px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+
+        /* --- ABOUT PAGE STYLES --- */
+        .about-hero { padding: 80px 0; text-align: center; }
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; padding: 60px 0; align-items: center; }
+        .story-text { font-size: 1.1rem; color: var(--text-light); }
+        .check-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.05rem; }
+        .check-list i { color: var(--primary); }
+
+        /* --- SERVICES PAGE STYLES --- */
+        .services-hero { padding: 80px 0; background: linear-gradient(to bottom, #f0f9ff, #fff); text-align: center; }
+        .service-grid-container { padding: 80px 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .service-card {
+            border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 40px 30px;
+            transition: var(--transition); background: white;
+        }
+        .service-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: var(--shadow); }
+        .s-icon { font-size: 2rem; color: var(--secondary); margin-bottom: 20px; background: #f0f9ff; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 20px; }
+
+        /* --- BOOK PAGE STYLES --- */
+        .book-grid {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px;
+            margin: 80px auto; max-width: 1100px; background: white;
+            align-items: start;
+        }
+        
+        /* Map Section */
+        .map-section {
+            background: white; border-radius: var(--radius); overflow: hidden;
+            box-shadow: var(--shadow); border: 1px solid #e2e8f0;
+        }
+        .map-header { padding: 25px; background: var(--primary); color: white; }
+        .map-header h3 { color: white; margin: 0; font-size: 1.4rem; }
+        .map-header p { font-size: 0.9rem; opacity: 0.9; margin: 5px 0 0 0; }
+        
+        .map-frame { width: 100%; height: 350px; border: none; }
+        .map-actions { padding: 25px; background: #f8fafc; border-top: 1px solid #e2e8f0; }
+
+        /* Form Section */
+        .form-section {
+            background: white; border-radius: var(--radius); overflow: hidden;
+            box-shadow: var(--shadow); border: 1px solid #e2e8f0;
+            padding: 40px;
+        }
+        .form-section h3 { margin-bottom: 25px; font-size: 1.4rem; }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-dark); }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 8px;
+            font-family: inherit; transition: 0.3s; background: #fdfdfd;
+        }
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus { 
+            border-color: var(--primary); outline: none; background: #fff;
+        }
+
+        /* Footer */
+        footer { background: #1e293b; color: #94a3b8; padding: 40px 0; text-align: center; margin-top: auto; }
+
+        /* Notification */
+        .toast {
+            position: fixed; bottom: 30px; right: 30px; background: #10b981; color: white;
+            padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 12px; 
+            transform: translateY(150%); transition: 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+            z-index: 2000; border-left: 5px solid #059669;
+        }
+        .toast.show { transform: translateY(0); }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .book-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed; top: 0; right: -100%; width: 75%; height: 100vh;
+                background: white; flex-direction: column; padding-top: 80px;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.4s;
+            }
+            .nav-menu.active { right: 0; }
+            .mobile-toggle { display: block; z-index: 1001; }
+            .hero-section { grid-template-columns: 1fr; text-align: center; padding: 60px 0; }
+            .hero-img { display: none; } /* Hide image on small mobile to focus text */
+            .about-content, .btn-map-group { grid-template-columns: 1fr; flex-direction: column; }
+            .check-list li { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo" onclick="switchPage('home')">
+                <i class="fa-solid fa-tooth"></i> Klinik Pergigian Azam
+            </div>
+            
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a class="nav-link active" onclick="switchPage('home')">Home</a></li>
+                    <li><a class="nav-link" onclick="switchPage('about')">About</a></li>
+                    <li><a class="nav-link" onclick="switchPage('services')">Services</a></li>
+                    <li><button class="btn-modern" onclick="switchPage('book')">Book Now <i class="fa-solid fa-arrow-right"></i></button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent">
+
+        <!-- ==================== PAGE: HOME ==================== -->
+        <section id="home" class="page active">
+            <div class="container">
+                <div class="hero-section">
+                    <div class="hero-text">
+                        <h1>Your Brightest Smile Starts Here</h1>
+                        <p>Experience premium dental care in Sungai Petani. We combine expert treatment with a gentle touch to ensure your comfort.</p>
+                        <button class="btn-modern" onclick="switchPage('book')">Book Appointment</button>
+                    </div>
+                    <div class="hero-img">
+                        <img src="https://picsum.photos/seed/dentalhero2/600/500" alt="Dental Clinic">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="container">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                            <h3>Expert Dentists</h3>
+                            <p style="margin-top:10px; color:var(--text-light); font-size:0.9rem;">Qualified professionals with years of experience.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
+                            <h3>Convenient Hours</h3>
+                            <p style="margin-top:10px; color:var(--text-light); font-size:0.9rem;">Open Mon-Sat with flexible appointment times.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                            <h3>Sterile & Safe</h3>
+                            <p style="margin-top:10px; color:var(--text-light); font-size:0.9rem;">Highest standards of hygiene and sterilization.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: ABOUT ==================== -->
+        <section id="about" class="page">
+            <div class="container">
+                <div class="about-hero">
+                    <h1>About Our Clinic</h1>
+                    <p style="max-width: 600px; margin: 10px auto; color: var(--text-light);">Dedicated to the oral health of Sungai Petani residents.</p>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-img">
+                        <img src="https://picsum.photos/seed/dentalinterior/600/600" alt="Clinic Interior" style="border-radius: 20px; box-shadow: var(--shadow);">
+                    </div>
+                    <div class="about-text">
+                        <h2 style="font-size: 2rem; margin-bottom: 20px;">Who We Are</h2>
+                        <p class="story-text" style="margin-bottom: 25px;">
+                            Strategically located at <strong>Pusat Komersial Saujana</strong>, Klinik Pergigian Azam offers state-of-the-art dental facilities. We believe that visiting the dentist shouldn't be scary. Our friendly team works hard to make every visit a pleasant one.
+                        </p>
+                        <ul class="check-list">
+                            <li><i class="fa-solid fa-circle-check"></i> Latest Digital X-Ray Technology</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Comfortable Waiting Area</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Ample Parking Available</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: SERVICES ==================== -->
+        <section id="services" class="page">
+            <div class="services-hero">
+                <div class="container">
+                    <h1>Our Services</h1>
+                    <p>Professional care tailored to your specific needs.</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="service-grid-container">
+                    <div class="service-card">
+                        <div class="s-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>Teeth Whitening</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 10px;">Get a brighter smile with our professional whitening treatments.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="s-icon"><i class="fa-solid fa-tooth"></i></div>
+                        <h3>Scaling & Polishing</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 10px;">Deep cleaning to keep your gums healthy and breath fresh.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="s-icon"><i class="fa-solid fa-teeth-open"></i></div>
+                        <h3>Braces & Aligners</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 10px;">Straighten your teeth for a perfect bite and beautiful look.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="s-icon"><i class="fa-solid fa-notes-medical"></i></div>
+                        <h3>Root Canal</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 10px;">Expert endodontic therapy to save damaged teeth.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="s-icon"><i class="fa-solid fa-child-reaching"></i></div>
+                        <h3>Kids Dentistry</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 10px;">Gentle care designed specifically for children.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="s-icon"><i class="fa-solid fa-x-ray"></i></div>
+                        <h3>Digital X-Ray</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 10px;">Low-radiation imaging for accurate diagnosis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: BOOK ==================== -->
+        <section id="book" class="page">
+            <div class="container">
+                <div class="book-grid">
+                    
+                    <!-- Left Column: Map -->
+                    <div class="map-section">
+                        <div class="map-header">
+                            <h3>Find Us</h3>
+                            <p>21, Jalan PKS (A), Pusat Komersial Saujana, 08000 Sungai Petani</p>
+                        </div>
+                        
+                        <!-- Embedded Google Map Preview -->
+                        <iframe 
+                            class="map-frame"
+                            frameborder="0" 
+                            style="border:0" 
+                            src="https://maps.google.com/maps?q=21,+Jalan+PKS+(A),+Pusat+Komersial+Saujana,+08000+Sungai+Petani,+Kedah&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                            allowfullscreen>
+                        </iframe>
+
+                        <!-- Action Buttons -->
+                        <div class="map-actions">
+                            <p style="margin-bottom: 10px; font-weight: 600; color: var(--text-light);">Get Directions:</p>
+                            <div class="btn-map-group">
+                                <!-- Google Maps Link -->
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=Klinik+Pergigian+Azam+Sungai+Petani" target="_blank" class="btn-google">
+                                    <i class="fa-brands fa-google"></i> Google Maps
+                                </a>
+                                
+                                <!-- Waze Link (Deep Link) -->
+                                <a href="https://waze.com/ul?q=Klinik+Pergigian+Azam,+Sungai+Petani" target="_blank" class="btn-waze">
+                                    <i class="fa-solid fa-location-arrow"></i> Waze
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Form -->
+                    <div class="form-section">
+                        <h3>Appointment Request</h3>
+                        
+                        <!-- FORMSUBMIT CO SETUP -->
+                        <form id="appointmentForm" action="https://formsubmit.co/danialamir1809@gmail.com" method="POST">
+                            <input type="hidden" name="_subject" value="New Appointment Request from Website">
+                            <input type="hidden" name="_captcha" value="false">
+                            
+                            <!-- Optional: Custom Thank You Page URL -->
+                            <!-- <input type="hidden" name="_next" value="https://yourwebsite.com/thanks.html"> -->
+
+                            <div class="input-group">
+                                <label>Your Name</label>
+                                <input type="text" name="name" placeholder="Full Name" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Phone Number</label>
+                                <input type="tel" name="phone" placeholder="01x-xxxxxxx" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Select Date & Time</label>
+                                <input type="datetime-local" name="date" id="dateInput" required>
+                                <small style="color: var(--text-light); font-size: 0.75rem;">*Cannot select past date</small>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Service</label>
+                                <select name="service">
+                                    <option>General Checkup</option>
+                                    <option>Scaling</option>
+                                    <option>Pain / Emergency</option>
+                                    <option>Braces Consultation</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Message (Optional)</label>
+                                <textarea name="message" rows="3" placeholder="Any specific concern?"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-modern" style="width: 100%;">Send Request</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Klinik Pergigian Azam. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check" style="font-size: 1.5rem;"></i>
+        <div>
+            <h4 style="margin:0; font-size: 1rem; color: white;">Request Sent!</h4>
+            <p style="margin:0; font-size: 0.85rem; opacity: 0.9;">Once Slot available, Our teams will contact shortly.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // 1. Page Switching Functionality
+        function switchPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show target page
+            document.getElementById(pageId).classList.add('active');
+
+            // Update Navigation Active State
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('onclick').includes(pageId)) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Close mobile menu if open
+            const navMenu = document.getElementById('navMenu');
+            if (navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                document.getElementById('mobileToggle').querySelector('i').classList.remove('fa-xmark');
+                document.getElementById('mobileToggle').querySelector('i').classList.add('fa-bars');
+            }
+        }
+
+        // 2. Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // 3. Date Restriction (Past Dates)
+        const dateInput = document.getElementById('dateInput');
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        dateInput.min = now.toISOString().slice(0,16);
+
+        // 4. Form Handling with Notification
+        const form = document.getElementById('appointmentForm');
+        const toast = document.getElementById('toast');
+
+        form.addEventListener('submit', function(e) {
+            // We allow the form to submit naturally to FormSubmit.co, but show the toast immediately for UX.
+            
+            const btn = form.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Sending...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Show Toast
+                toast.classList.add('show');
+                
+                // Reset Button
+                btn.innerText = originalText;
+                btn.disabled = false;
+                form.reset();
+
+                // Hide Toast after 5 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 5000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
