@@ -57,7 +57,7 @@
         /* --- Header & Navigation --- */
         header {
             position: sticky; top: 0; z-index: 1000;
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255,255, 255, 0.98);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid #f1f5f9;
             padding: 12px 0; 
@@ -153,6 +153,31 @@
 
         .mobile-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--primary); }
 
+        /* Floating WhatsApp Button */
+        .float-wa {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        .float-wa:hover {
+            transform: scale(1.1);
+            background-color: #1fad55;
+        }
+
         /* --- Page Switching Logic --- */
         .page {
             display: none; 
@@ -241,6 +266,7 @@
             font-size: 14px; color: var(--text-dark);
         }
         
+        /* Enhanced Focus State */
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus { 
             border-color: var(--primary); 
             outline: none; 
@@ -311,6 +337,8 @@
             
             .btn-map-group { flex-direction: column; }
             .btn-google, .btn-waze { width: 100%; }
+            
+            .float-wa { bottom: 15px; left: 15px; width: 50px; height: 50px; font-size: 24px; }
         }
     </style>
 </head>
@@ -360,7 +388,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Features Section Removed as requested -->
         </section>
 
         <!-- ==================== PAGE: ABOUT ==================== -->
@@ -480,14 +507,16 @@
 
                             <div class="input-group">
                                 <label data-i18n="lbl-phone">Phone Number</label>
-                                <input type="tel" name="phone" placeholder="01x-xxxxxxx" required>
+                                <input type="tel" name="phone" placeholder="01x-xxxxxxx" required onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                             </div>
 
                             <div class="input-group">
                                 <label data-i18n="lbl-date">Select Date & Time</label>
-                                <!-- Logic in JS will auto-correct this -->
                                 <input type="datetime-local" name="date" id="dateInput" required>
-                                <small style="color: var(--text-light); font-size: 0.75rem;" data-i18n="lbl-date-hint">*Past dates/times will auto-correct to now</small>
+                                <div style="display: flex; gap: 8px; margin-top: 5px;">
+                                    <i class="fa-solid fa-clock" style="color: var(--primary); font-size: 0.8rem; align-self: center;"></i>
+                                    <small style="color: var(--text-light); font-size: 0.75rem;" data-i18n="hours-hint">Mon-Sat: 9am - 6pm (Closed Sunday)</small>
+                                </div>
                             </div>
 
                             <div class="input-group">
@@ -531,6 +560,11 @@
         </div>
     </div>
 
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/60174802238" class="float-wa" target="_blank" title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
     <!-- JavaScript Logic -->
     <script>
         // 1. Language Data
@@ -571,7 +605,7 @@
                 "lbl-name": "Your Name",
                 "lbl-phone": "Phone Number",
                 "lbl-date": "Select Date & Time",
-                "lbl-date-hint": "*Past dates/times will auto-correct to now",
+                "hours-hint": "Mon-Sat: 9am - 6pm (Closed Sunday)",
                 "lbl-service": "Service",
                 "opt-checkup": "General Checkup",
                 "opt-scaling": "Scaling",
@@ -581,7 +615,10 @@
                 "lbl-msg": "Message (Optional)",
                 "btn-submit": "Send Request",
                 "toast-title": "Request Sent!",
-                "toast-msg": "Once Slot available, Our teams will contact shortly."
+                "toast-msg": "Once Slot available, Our teams will contact shortly.",
+                "error-sun": "We are closed on Sundays. Rescheduled to Monday.",
+                "error-early": "We open at 9 AM. Time adjusted.",
+                "error-late": "We close at 6 PM. Rescheduled to tomorrow 9 AM."
             },
             bm: {
                 "current-lang": "EN",
@@ -619,7 +656,7 @@
                 "lbl-name": "Nama Anda",
                 "lbl-phone": "Nombor Telefon",
                 "lbl-date": "Pilih Tarikh & Masa",
-                "lbl-date-hint": "*Tarikh lama akan ditukar ke masa sekarang",
+                "hours-hint": "Isnin-Sabtu: 9pagi - 6ptg (Tutup Ahad)",
                 "lbl-service": "Perkhidmatan",
                 "opt-checkup": "Pemeriksaan Umum",
                 "opt-scaling": "Scaling",
@@ -629,7 +666,10 @@
                 "lbl-msg": "Mesej (Pilihan)",
                 "btn-submit": "Hantar Permintaan",
                 "toast-title": "Permintaan Dihantar!",
-                "toast-msg": "Sebaik sahaja Slot tersedia, pasukan kami akan menghubungi anda."
+                "toast-msg": "Sebaik sahaja Slot tersedia, pasukan kami akan menghubungi anda.",
+                "error-sun": "Kami tutup pada hari Ahad. Tarikh dipindahkan ke Isnin.",
+                "error-early": "Kami buka pada pukul 9 pagi. Masa disesuaikan.",
+                "error-late": "Kami tutup pada pukul 6 ptg. Tarikh dipindahkan ke esok."
             }
         };
 
@@ -698,38 +738,110 @@
             }
         });
 
-        // 5. Smart Date & Time Logic
+        // 5. Smart Business Hours Logic
         const dateInput = document.getElementById('dateInput');
-        
-        // Helper to get current time formatted for input
-        function getCurrentTimeValue() {
-            const now = new Date();
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            return now.toISOString().slice(0, 16);
+        const toast = document.getElementById('toast');
+        const toastTitle = toast.querySelector('h4');
+        const toastMsg = toast.querySelector('p');
+        const toastIcon = toast.querySelector('i');
+
+        function formatForInput(date) {
+            date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+            return date.toISOString().slice(0,16);
         }
 
-        // Initialize with current time
-        dateInput.min = getCurrentTimeValue();
+        function showToastInfo(message, subMessage, isSuccess) {
+            toastTitle.innerText = message;
+            toastMsg.innerText = subMessage;
+            toast.className = 'toast show';
+            if(isSuccess) {
+                toast.style.borderLeftColor = "#f59e0b"; // Warning orange
+                toast.style.background = "#ffffff";
+                toast.style.color = "#1e293b";
+                toastIcon.className = "fa-solid fa-circle-info";
+                toastIcon.style.color = "#f59e0b";
+            } else {
+                toast.style.borderLeftColor = "#059669"; // Success green
+                toast.style.background = "#10b981";
+                toast.style.color = "white";
+                toastIcon.className = "fa-solid fa-circle-check";
+                toastIcon.style.color = "white";
+            }
+            
+            setTimeout(() => { toast.classList.remove('show'); }, 4000);
+        }
 
-        // Auto-Correction Listener
         dateInput.addEventListener('input', function(e) {
-            const userDate = new Date(this.value);
-            const currentDate = new Date();
+            const selected = new Date(this.value);
+            const now = new Date();
+            
+            // Check if past
+            if (selected < now) {
+                this.value = formatForInput(now);
+                return;
+            }
 
-            // If user selected a date/time that is in the past
-            if (userDate < currentDate) {
-                // Flash visual cue (optional) and reset
-                this.style.borderColor = "#ef4444"; // Red flash
-                setTimeout(() => this.style.borderColor = "#e2e8f0", 300);
+            const day = selected.getDay(); // 0 = Sunday, 6 = Saturday
+            const hours = selected.getHours();
 
-                // Reset to current time
-                this.value = getCurrentTimeValue();
+            // Logic: Closed Sunday
+            if (day === 0) {
+                // Move to Monday 9 AM
+                selected.setDate(selected.getDate() + 1);
+                selected.setHours(9, 0, 0);
+                this.value = formatForInput(selected);
+                showToastInfo("Warning", translations[currentLang]['error-sun'], true);
+                return;
+            }
+
+            // Logic: Too Early (< 9 AM)
+            if (hours < 9) {
+                selected.setHours(9, 0, 0);
+                this.value = formatForInput(selected);
+                showToastInfo("Warning", translations[currentLang]['error-early'], true);
+                return;
+            }
+
+            // Logic: Too Late (> 6 PM)
+            if (hours >= 18) {
+                // If today is Saturday, go to Monday 9 AM
+                if (day === 6) {
+                     selected.setDate(selected.getDate() + 2);
+                } else {
+                     // Go to next day 9 AM
+                     selected.setDate(selected.getDate() + 1);
+                }
+                selected.setHours(9, 0, 0);
+                this.value = formatForInput(selected);
+                showToastInfo("Warning", translations[currentLang]['error-late'], true);
+                return;
             }
         });
 
+        // Initialize with current valid time
+        const now = new Date();
+        const day = now.getDay();
+        const hours = now.getHours();
+
+        // If currently closed (e.g. user opens page on Sunday), set to Monday 9AM
+        if (day === 0 || hours >= 18 || hours < 9) {
+             // If it's past hours or Sunday, move to next opening
+             if(day === 0 || hours >= 18) {
+                 if(day === 0) now.setDate(now.getDate() + 1); // Sunday -> Monday
+                 else if (day === 6) now.setDate(now.getDate() + 2); // Sat -> Monday
+                 else now.setDate(now.getDate() + 1); // Tue-Fri -> Next Day
+                 now.setHours(9,0,0);
+             } else {
+                 // Currently before 9AM today
+                 now.setHours(9,0,0);
+             }
+        }
+        
+        dateInput.min = formatForInput(now);
+        dateInput.value = formatForInput(now);
+
         // 6. Form Handling
         const form = document.getElementById('appointmentForm');
-        const toast = document.getElementById('toast');
 
         form.addEventListener('submit', function(e) {
             const btn = form.querySelector('button');
@@ -740,13 +852,24 @@
             btn.disabled = true;
 
             setTimeout(() => {
+                // Show Success Toast
+                toastTitle.innerText = translations[currentLang]['toast-title'];
+                toastMsg.innerText = translations[currentLang]['toast-msg'];
+                toast.style.borderLeftColor = "#059669"; 
+                toast.style.background = "#10b981";
+                toast.style.color = "white";
+                toastIcon.className = "fa-solid fa-circle-check";
+                toastIcon.style.color = "white";
+                
                 toast.classList.add('show');
+
                 btn.innerHTML = originalContent;
                 btn.style.opacity = '1';
                 btn.disabled = false;
                 form.reset();
-                // Reset date input min to current
-                dateInput.min = getCurrentTimeValue();
+                // Reset date to now
+                dateInput.value = formatForInput(new Date()); 
+                
                 setTimeout(() => { toast.classList.remove('show'); }, 5000);
             }, 1000);
         });
