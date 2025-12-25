@@ -46,7 +46,7 @@
         h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--text-dark); line-height: 1.2; }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
-        img { max-width: 100%; height: auto; display: block; }
+        img { max-width: 100%; height: auto; display: block; object-fit: cover; }
         
         .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
@@ -169,6 +169,8 @@
             box-shadow: 20px 20px 0px #e2e8f0;
             transform: rotate(-2deg);
             transition: transform 0.5s ease;
+            width: 100%; /* Ensures it fits container */
+            height: auto;
         }
         .hero-img:hover img { transform: rotate(0deg); }
         
@@ -304,7 +306,8 @@
                         <button class="btn-modern" onclick="switchPage('book')">Book Appointment</button>
                     </div>
                     <div class="hero-img">
-                        <img src="https://picsum.photos/seed/dentalhero2/600/500" alt="Dental Clinic">
+                        <!-- YOUR CUSTOM IMAGE IS HERE -->
+                        <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/image.png" alt="Klinik Pergigian Azam">
                     </div>
                 </div>
             </div>
