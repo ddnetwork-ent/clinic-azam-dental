@@ -52,12 +52,13 @@
         ul { list-style: none; }
         img { max-width: 100%; height: auto; display: block; object-fit: cover; }
         
-        .container { width: 95%; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+        /* ADJUSTMENT: Increased right padding to move hamburger further right */
+        .container { width: 95%; max-width: 1100px; margin: 0 auto; padding: 0 25px 0 15px; }
 
         /* --- Header & Navigation --- */
         header {
             position: sticky; top: 0; z-index: 1000;
-            background: rgba(255,255, 255, 0.98);
+            background: rgba(255,255,255,0.98);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid #f1f5f9;
             padding: 12px 0; 
@@ -153,31 +154,6 @@
 
         .mobile-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--primary); }
 
-        /* Floating WhatsApp Button */
-        .float-wa {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background-color: #25D366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            transition: var(--transition);
-            text-decoration: none;
-        }
-        .float-wa:hover {
-            transform: scale(1.1);
-            background-color: #1fad55;
-        }
-
         /* --- Page Switching Logic --- */
         .page {
             display: none; 
@@ -266,7 +242,13 @@
             font-size: 14px; color: var(--text-dark);
         }
         
-        /* Enhanced Focus State */
+        /* SPLIT DATE/TIME STYLES */
+        .date-time-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus { 
             border-color: var(--primary); 
             outline: none; 
@@ -274,21 +256,66 @@
             box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
         }
 
+        /* --- THANK YOU PAGE STYLES --- */
+        .thank-you-section {
+            text-align: center;
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .ty-icon {
+            font-size: 5rem;
+            color: #10b981;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+        .ty-title { font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 15px; }
+        .ty-msg { font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto 40px; }
+        .ty-btn {
+            background: var(--primary); color: white; padding: 12px 35px; border-radius: 50px;
+            font-weight: 600; font-size: 1rem; border: none; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+            transition: var(--transition);
+        }
+        .ty-btn:hover { background: var(--primary-dark); transform: translateY(-3px); }
+
         /* Footer */
         footer { background: #1e293b; color: #94a3b8; padding: 30px 0; text-align: center; margin-top: auto; font-size: 0.8rem; }
 
         /* Notification */
         .toast {
-            position: fixed; bottom: 20px; right: 20px; background: #10b981; color: white;
+            position: fixed; bottom: 20px; right: 20px; background: #f59e0b; color: white;
             padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             display: flex; align-items: center; gap: 10px; 
             transform: translateY(150%); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            z-index: 2000; border-left: 4px solid #059669;
+            z-index: 2000; border-left: 4px solid #d97706;
             max-width: 90%;
         }
         .toast.show { transform: translateY(0); }
         .toast-content h4 { margin:0; font-size: 0.9rem; color: white; font-weight: 700; }
         .toast-content p { margin:0; font-size: 0.8rem; opacity: 0.9; }
+
+        /* ADJUSTMENT: Floating WhatsApp moved UP */
+        .float-wa {
+            position: fixed; 
+            bottom: 100px; /* Changed from 25px to 100px */
+            left: 25px; 
+            background-color: #25D366;
+            color: #FFF; border-radius: 50px; text-align: center; font-size: 30px;
+            box-shadow: 2px 2px 3px #999; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            width: 60px; height: 60px; transition: var(--transition); text-decoration: none;
+        }
+        .float-wa:hover {
+            transform: scale(1.1);
+            background-color: #1fad55;
+        }
 
         /* Spinner for Button */
         .spinner {
@@ -311,8 +338,7 @@
         @media (max-width: 768px) {
             .nav-menu {
                 position: fixed; top: 0; right: -100%; width: 75%; height: 100vh;
-                background: rgba(255,255,255,0.98); 
-                backdrop-filter: blur(10px);
+                background: rgba(255,255,255,0.98); backdrop-filter: blur(10px);
                 flex-direction: column; padding-top: 70px;
                 box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s;
                 align-items: flex-start; padding-left: 30px;
@@ -338,7 +364,8 @@
             .btn-map-group { flex-direction: column; }
             .btn-google, .btn-waze { width: 100%; }
             
-            .float-wa { bottom: 15px; left: 15px; width: 50px; height: 50px; font-size: 24px; }
+            .date-time-group { grid-template-columns: 1fr; } /* Stack Date & Time on mobile */
+            .float-wa { bottom: 80px; left: 15px; width: 50px; height: 50px; font-size: 24px; }
         }
     </style>
 </head>
@@ -502,26 +529,33 @@
                             
                             <div class="input-group">
                                 <label data-i18n="lbl-name">Your Name</label>
-                                <input type="text" name="name" placeholder="Full Name" required>
+                                <input type="text" name="Customer Name" placeholder="Full Name" required>
                             </div>
 
                             <div class="input-group">
                                 <label data-i18n="lbl-phone">Phone Number</label>
-                                <input type="tel" name="phone" placeholder="01x-xxxxxxx" required onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                <input type="tel" name="Phone Number" placeholder="01x-xxxxxxx" required onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                             </div>
 
-                            <div class="input-group">
-                                <label data-i18n="lbl-date">Select Date & Time</label>
-                                <input type="datetime-local" name="date" id="dateInput" required>
-                                <div style="display: flex; gap: 8px; margin-top: 5px;">
-                                    <i class="fa-solid fa-clock" style="color: var(--primary); font-size: 0.8rem; align-self: center;"></i>
-                                    <small style="color: var(--text-light); font-size: 0.75rem;" data-i18n="hours-hint">Mon-Sat: 9am - 6pm (Closed Sunday)</small>
+                            <!-- SPLIT DATE AND TIME -->
+                            <div class="date-time-group">
+                                <div class="input-group">
+                                    <label data-i18n="lbl-date">Select Date</label>
+                                    <input type="date" name="Appointment Date" id="dateInput" required>
                                 </div>
+                                <div class="input-group">
+                                    <label data-i18n="lbl-time">Select Time</label>
+                                    <input type="time" name="Appointment Time" id="timeInput" required>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 8px; margin-top: -10px; margin-bottom: 15px;">
+                                <i class="fa-solid fa-clock" style="color: var(--primary); font-size: 0.8rem; align-self: center;"></i>
+                                <small style="color: var(--text-light); font-size: 0.75rem;" data-i18n="hours-hint">Mon-Sat: 9am - 6pm (Closed Sunday)</small>
                             </div>
 
                             <div class="input-group">
                                 <label data-i18n="lbl-service">Service</label>
-                                <select name="service">
+                                <select name="Selected Service">
                                     <option value="General Checkup" data-i18n="opt-checkup">General Checkup</option>
                                     <option value="Scaling" data-i18n="opt-scaling">Scaling</option>
                                     <option value="Pain / Emergency" data-i18n="opt-pain">Pain / Emergency</option>
@@ -532,13 +566,25 @@
 
                             <div class="input-group">
                                 <label data-i18n="lbl-msg">Message (Optional)</label>
-                                <textarea name="message" rows="2" placeholder="Any specific concern?"></textarea>
+                                <textarea name="Additional Message" rows="2" placeholder="Any specific concern?"></textarea>
                             </div>
 
                             <button type="submit" class="btn-modern" style="width: 100%;" data-i18n="btn-submit">Send Request</button>
                         </form>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: THANK YOU ==================== -->
+        <section id="thank-you" class="page">
+            <div class="thank-you-section">
+                <div class="ty-icon"><i class="fa-regular fa-circle-check"></i></div>
+                <h1 class="ty-title" data-i18n="ty-title">Thank You!</h1>
+                <p class="ty-msg" data-i18n="ty-msg">Thank you for choosing us. Your appointment confirmation will be reconfirmed shortly.</p>
+                <button class="ty-btn" onclick="switchPage('home')">
+                    <i class="fa-solid fa-house"></i> <span data-i18n="btn-home">Back to Home</span>
+                </button>
             </div>
         </section>
 
@@ -553,10 +599,10 @@
 
     <!-- Notification Toast -->
     <div class="toast" id="toast">
-        <i class="fa-solid fa-circle-check" style="font-size: 1.2rem;"></i>
+        <i class="fa-solid fa-circle-info" style="font-size: 1.2rem;"></i>
         <div class="toast-content">
-            <h4 data-i18n="toast-title">Request Sent!</h4>
-            <p data-i18n="toast-msg">Once Slot available, Our teams will contact shortly.</p>
+            <h4 style="margin:0; font-size: 0.9rem; color: white; font-weight: 700;" id="toast-title-h4">Warning</h4>
+            <p style="margin:0; font-size: 0.8rem; opacity: 0.9;" id="toast-text-p">Message goes here</p>
         </div>
     </div>
 
@@ -604,7 +650,8 @@
                 "form-title": "Appointment Request",
                 "lbl-name": "Your Name",
                 "lbl-phone": "Phone Number",
-                "lbl-date": "Select Date & Time",
+                "lbl-date": "Select Date",
+                "lbl-time": "Select Time",
                 "hours-hint": "Mon-Sat: 9am - 6pm (Closed Sunday)",
                 "lbl-service": "Service",
                 "opt-checkup": "General Checkup",
@@ -614,8 +661,9 @@
                 "opt-other": "Other",
                 "lbl-msg": "Message (Optional)",
                 "btn-submit": "Send Request",
-                "toast-title": "Request Sent!",
-                "toast-msg": "Once Slot available, Our teams will contact shortly.",
+                "ty-title": "Thank You!",
+                "ty-msg": "Thank you for choosing us. Your appointment confirmation will be reconfirmed shortly.",
+                "btn-home": "Back to Home",
                 "error-sun": "We are closed on Sundays. Rescheduled to Monday.",
                 "error-early": "We open at 9 AM. Time adjusted.",
                 "error-late": "We close at 6 PM. Rescheduled to tomorrow 9 AM."
@@ -655,7 +703,8 @@
                 "form-title": "Permintaan Temujanji",
                 "lbl-name": "Nama Anda",
                 "lbl-phone": "Nombor Telefon",
-                "lbl-date": "Pilih Tarikh & Masa",
+                "lbl-date": "Pilih Tarikh",
+                "lbl-time": "Pilih Masa",
                 "hours-hint": "Isnin-Sabtu: 9pagi - 6ptg (Tutup Ahad)",
                 "lbl-service": "Perkhidmatan",
                 "opt-checkup": "Pemeriksaan Umum",
@@ -665,8 +714,9 @@
                 "opt-other": "Lain-lain",
                 "lbl-msg": "Mesej (Pilihan)",
                 "btn-submit": "Hantar Permintaan",
-                "toast-title": "Permintaan Dihantar!",
-                "toast-msg": "Sebaik sahaja Slot tersedia, pasukan kami akan menghubungi anda.",
+                "ty-title": "Terima Kasih!",
+                "ty-msg": "Terima kasih kerana memilih kami. Pengesahan temujanji anda akan dihubungi sebentar lagi.",
+                "btn-home": "Kembali ke Laman Utama",
                 "error-sun": "Kami tutup pada hari Ahad. Tarikh dipindahkan ke Isnin.",
                 "error-early": "Kami buka pada pukul 9 pagi. Masa disesuaikan.",
                 "error-late": "Kami tutup pada pukul 6 ptg. Tarikh dipindahkan ke esok."
@@ -738,107 +788,114 @@
             }
         });
 
-        // 5. Smart Business Hours Logic
+        // 5. Smart Business Hours Logic (Date & Time Separate)
         const dateInput = document.getElementById('dateInput');
+        const timeInput = document.getElementById('timeInput');
         const toast = document.getElementById('toast');
-        const toastTitle = toast.querySelector('h4');
-        const toastMsg = toast.querySelector('p');
-        const toastIcon = toast.querySelector('i');
+        const toastTitle = document.getElementById('toast-title-h4');
+        const toastText = document.getElementById('toast-text-p');
 
-        function formatForInput(date) {
-            date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-            return date.toISOString().slice(0,16);
-        }
-
-        function showToastInfo(message, subMessage, isSuccess) {
-            toastTitle.innerText = message;
-            toastMsg.innerText = subMessage;
-            toast.className = 'toast show';
-            if(isSuccess) {
-                toast.style.borderLeftColor = "#f59e0b"; // Warning orange
-                toast.style.background = "#ffffff";
-                toast.style.color = "#1e293b";
-                toastIcon.className = "fa-solid fa-circle-info";
-                toastIcon.style.color = "#f59e0b";
-            } else {
-                toast.style.borderLeftColor = "#059669"; // Success green
-                toast.style.background = "#10b981";
-                toast.style.color = "white";
-                toastIcon.className = "fa-solid fa-circle-check";
-                toastIcon.style.color = "white";
-            }
-            
-            setTimeout(() => { toast.classList.remove('show'); }, 4000);
-        }
-
-        dateInput.addEventListener('input', function(e) {
-            const selected = new Date(this.value);
+        // Helper to get input min for Date
+        function getMinDate() {
             const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Initialize
+        dateInput.min = getMinDate();
+        timeInput.min = "09:00";
+        timeInput.max = "18:00";
+        
+        // Set initial values logic
+        let now = new Date();
+        if (now.getDay() === 0 || now.getHours() >= 18 || now.getHours() < 9) {
+             // Move to valid opening
+             if(now.getDay() === 0 || now.getHours() >= 18) {
+                 if(now.getDay() === 0) now.setDate(now.getDate() + 1); // Sunday -> Monday
+                 else if (now.getDay() === 6) now.setDate(now.getDate() + 2); // Sat -> Monday
+                 else now.setDate(now.getDate() + 1); // Tue-Fri -> Next Day
+                 now.setHours(9,0,0);
+             } else {
+                 now.setHours(9,0,0); // Before 9am today
+             }
+        }
+        dateInput.valueAsDate = now;
+        // Format time for input
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        timeInput.value = `${hours}:${minutes}`;
+
+        function showToastWarning(msg) {
+            toastText.innerText = msg;
+            toastTitle.innerText = "Warning";
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // Date Validation
+        dateInput.addEventListener('input', function(e) {
+            const selectedDate = new Date(this.value);
+            const nowDate = new Date();
             
-            // Check if past
-            if (selected < now) {
-                this.value = formatForInput(now);
+            if (selectedDate < nowDate.setHours(0,0,0,0)) {
+                this.value = getMinDate(); // Reset to today
+                // Reset time to 9am if date changes back to today
+                if(this.value === getMinDate()) {
+                     timeInput.value = "09:00";
+                }
+                showToastWarning(translations[currentLang]['error-early']); 
                 return;
             }
+            // If date changes in future, default time to 9am for safety
+            timeInput.value = "09:00";
+        });
 
-            const day = selected.getDay(); // 0 = Sunday, 6 = Saturday
-            const hours = selected.getHours();
+        // Time Validation
+        timeInput.addEventListener('input', function(e) {
+            const dateVal = dateInput.valueAsDate || new Date();
+            const timeVal = this.value; // HH:mm
+            
+            // If no date selected, prevent invalid time validation logic or default to today
+            if(!dateInput.value) return;
+
+            const combined = new Date(`${dateVal.toISOString().split('T')[0]}T${timeVal}`);
+            const now = new Date();
 
             // Logic: Closed Sunday
-            if (day === 0) {
+            if (combined.getDay() === 0) {
                 // Move to Monday 9 AM
-                selected.setDate(selected.getDate() + 1);
-                selected.setHours(9, 0, 0);
-                this.value = formatForInput(selected);
-                showToastInfo("Warning", translations[currentLang]['error-sun'], true);
+                dateVal.setDate(dateVal.getDate() + 1);
+                dateInput.valueAsDate = dateVal;
+                timeInput.value = "09:00";
+                showToastWarning(translations[currentLang]['error-sun']);
                 return;
             }
 
             // Logic: Too Early (< 9 AM)
-            if (hours < 9) {
-                selected.setHours(9, 0, 0);
-                this.value = formatForInput(selected);
-                showToastInfo("Warning", translations[currentLang]['error-early'], true);
+            if (timeVal < "09:00") {
+                timeInput.value = "09:00";
+                showToastWarning(translations[currentLang]['error-early']);
                 return;
             }
 
             // Logic: Too Late (> 6 PM)
-            if (hours >= 18) {
+            if (timeVal > "18:00") {
                 // If today is Saturday, go to Monday 9 AM
-                if (day === 6) {
-                     selected.setDate(selected.getDate() + 2);
+                if (dateVal.getDay() === 6) {
+                     dateVal.setDate(dateVal.getDate() + 2);
                 } else {
                      // Go to next day 9 AM
-                     selected.setDate(selected.getDate() + 1);
+                     dateVal.setDate(dateVal.getDate() + 1);
                 }
-                selected.setHours(9, 0, 0);
-                this.value = formatForInput(selected);
-                showToastInfo("Warning", translations[currentLang]['error-late'], true);
+                dateInput.valueAsDate = dateVal;
+                timeInput.value = "09:00";
+                showToastWarning(translations[currentLang]['error-late']);
                 return;
             }
         });
-
-        // Initialize with current valid time
-        const now = new Date();
-        const day = now.getDay();
-        const hours = now.getHours();
-
-        // If currently closed (e.g. user opens page on Sunday), set to Monday 9AM
-        if (day === 0 || hours >= 18 || hours < 9) {
-             // If it's past hours or Sunday, move to next opening
-             if(day === 0 || hours >= 18) {
-                 if(day === 0) now.setDate(now.getDate() + 1); // Sunday -> Monday
-                 else if (day === 6) now.setDate(now.getDate() + 2); // Sat -> Monday
-                 else now.setDate(now.getDate() + 1); // Tue-Fri -> Next Day
-                 now.setHours(9,0,0);
-             } else {
-                 // Currently before 9AM today
-                 now.setHours(9,0,0);
-             }
-        }
-        
-        dateInput.min = formatForInput(now);
-        dateInput.value = formatForInput(now);
 
         // 6. Form Handling
         const form = document.getElementById('appointmentForm');
@@ -852,25 +909,15 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                // Show Success Toast
-                toastTitle.innerText = translations[currentLang]['toast-title'];
-                toastMsg.innerText = translations[currentLang]['toast-msg'];
-                toast.style.borderLeftColor = "#059669"; 
-                toast.style.background = "#10b981";
-                toast.style.color = "white";
-                toastIcon.className = "fa-solid fa-circle-check";
-                toastIcon.style.color = "white";
+                switchPage('thank-you');
                 
-                toast.classList.add('show');
-
                 btn.innerHTML = originalContent;
                 btn.style.opacity = '1';
                 btn.disabled = false;
                 form.reset();
-                // Reset date to now
-                dateInput.value = formatForInput(new Date()); 
-                
-                setTimeout(() => { toast.classList.remove('show'); }, 5000);
+                // Reset date/time
+                dateInput.valueAsDate = new Date(); 
+                timeInput.value = getCurrentTime();
             }, 1000);
         });
     </script>
