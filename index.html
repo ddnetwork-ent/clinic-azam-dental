@@ -71,7 +71,7 @@
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         
         .logo { 
-            font-size: 0; /* Remove font size as we use image + text */
+            font-size: 0; /* Remove font size as we use image */
             display: flex; /* Enable flex for layout */
             align-items: center; gap: 10px; /* Align items horizontally with spacing */
             cursor: pointer; 
@@ -81,22 +81,22 @@
 
         /* NEW: Logo Image Styling */
         .logo-img {
-            height: 45px; /* Constrain height */
-            width: auto;  /* Maintain aspect ratio */
+            height: 45px; /* Constrain height for consistency */
+            width: auto; /* Maintain aspect ratio */
             object-fit: contain; /* Ensure image fits box */
-            display: block;
+            transition: height 0.3s ease, transform 0.3s ease;
         }
         
         /* Shrink logo slightly */
         header.shrink .logo-img {
             height: 40px;
         }
-        
+
         /* Logo Text Styling */
         .logo span {
             font-weight: 800;
             color: var(--primary);
-            font-size: 1.25rem; /* Restore font size for text */
+            font-size: 1.25rem;
             transition: font-size 0.3s ease;
         }
         header.shrink .logo span {
@@ -154,7 +154,7 @@
         
         .btn-modern:active { transform: translateY(0); }
 
-        /* Google Review Button */
+        /* NEW: Google Review Button */
         .btn-google-review {
             background: #fff; color: #4285F4; 
             padding: 10px 20px; border-radius: 30px; 
@@ -453,8 +453,8 @@
                         </div>
                     </div>
                     <div class="hero-img">
-                        <!-- Updated IMAGE -->
-                        <img src="https://github.com/ddnetwork-ent/clinic-azam-dental/blob/main/image.png" alt="Klinik Pergigian Azam">
+                        <!-- UPDATED IMAGE -->
+                        <img src="https://github.com/ddnetwork-ent/clinic-azam-dental/blob/main/Clinic.webp" alt="Klinik Pergigian Azam">
                     </div>
                 </div>
             </div>
@@ -888,6 +888,7 @@
             
             if (selectedDate < nowDate.setHours(0,0,0,0)) {
                 this.value = getMinDate(); // Reset to today
+                // Reset time to default if user picks new date
                 if(this.value === getMinDate()) {
                      timeInput.value = "09:00";
                 }
