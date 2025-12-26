@@ -71,7 +71,7 @@
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         
         .logo { 
-            font-size: 0; /* Remove font size as we use image */
+            font-size: 0; /* Remove font size as we use image + text */
             display: flex; /* Enable flex for layout */
             align-items: center; gap: 10px; /* Align items horizontally with spacing */
             cursor: pointer; 
@@ -79,7 +79,7 @@
             transition: all 0.3s ease;
         }
 
-        /* NEW: Logo Image Styling */
+        /* Logo Image Styling */
         .logo-img {
             height: 45px; /* Constrain height for consistency */
             width: auto; /* Maintain aspect ratio */
@@ -96,7 +96,7 @@
         .logo span {
             font-weight: 800;
             color: var(--primary);
-            font-size: 1.25rem;
+            font-size: 1.25rem; /* Restore font size for text */
             transition: font-size 0.3s ease;
         }
         header.shrink .logo span {
@@ -154,7 +154,7 @@
         
         .btn-modern:active { transform: translateY(0); }
 
-        /* NEW: Google Review Button */
+        /* Google Review Button */
         .btn-google-review {
             background: #fff; color: #4285F4; 
             padding: 10px 20px; border-radius: 30px; 
@@ -406,10 +406,10 @@
     <!-- Header Navigation -->
     <header id="mainHeader">
         <div class="container nav-container">
-            <!-- UPDATED: Logo (Image Left + Text) -->
+            <!-- Logo (Image Left + Text) -->
             <div class="logo" onclick="switchPage('home')">
-                <!-- Logo Image on Left -->
-                <img src="https://github.com/ddnetwork-ent/clinic-azam-dental/blob/main/IMG_2260.JPG" alt="Klinik Pergigian Azam" class="logo-img">
+                <!-- Logo Image (Left) - Updated URL -->
+                <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/IMG_2260.JPG" alt="Klinik Pergigian Azam" class="logo-img">
                 <!-- Text -->
                 <span>Klinik Pergigian Azam</span>
             </div>
@@ -453,8 +453,8 @@
                         </div>
                     </div>
                     <div class="hero-img">
-                        <!-- UPDATED IMAGE -->
-                        <img src="https://github.com/ddnetwork-ent/clinic-azam-dental/blob/main/Clinic.webp" alt="Klinik Pergigian Azam">
+                        <!-- Home Page Image - Updated URL -->
+                        <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/Clinic.webp" alt="Klinik Pergigian Azam">
                     </div>
                 </div>
             </div>
@@ -470,7 +470,7 @@
 
                 <div class="about-content">
                     <div class="about-img">
-                        <!-- IMAGE (Remains IMG_2260.JPG) -->
+                        <!-- About Image (Unchanged) -->
                         <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/IMG_2260.JPG" alt="Clinic Interior" style="border-radius: 20px; box-shadow: var(--shadow-md);">
                     </div>
                     <div class="about-text">
