@@ -81,10 +81,10 @@
 
         /* Logo Image Styling - CIRCULAR VERSION */
         .logo-img {
-            height: 45px;
+            height: 45px; /* Constrain height for consistency */
             width: 45px; /* Force square to make a perfect circle */
             border-radius: 50%; /* Make it circular */
-            object-fit: cover; /* Ensure image fills the circle */
+            object-fit: cover; /* Ensure image fills circle */
             background-color: white; /* White background in case of transparency */
             transition: height 0.3s ease, transform 0.3s ease;
         }
@@ -456,8 +456,8 @@
                         </div>
                     </div>
                     <div class="hero-img">
-                        <!-- Home Page Image (Clinic.webp) -->
-                        <img src="https://github.com/ddnetwork-ent/clinic-azam-dental/blob/main/Clinic.webp" alt="Klinik Pergigian Azam">
+                        <!-- Home Page Image - Updated URL -->
+                        <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/Clinic.webp" alt="Klinik Pergigian Azam">
                     </div>
                 </div>
             </div>
@@ -886,12 +886,12 @@
         dateInput.addEventListener('input', function(e) {
             const selectedDate = new Date(this.value);
             const nowDate = new Date();
-            // Reset time to default if user picks new date
-            timeInput.value = "09:00";
             
             if (selectedDate < nowDate.setHours(0,0,0,0)) {
                 this.value = getMinDate(); // Reset to today
                 // Reset time to default if user picks new date
+                timeInput.value = "09:00";
+                
                 if(this.value === getMinDate()) {
                      timeInput.value = "09:00";
                 }
