@@ -71,17 +71,24 @@
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         
         .logo { 
-            font-size: 1.25rem; 
-            font-weight: 800; 
-            color: var(--primary); 
+            font-size: 0; /* Remove font size as we use image */
             display: flex; align-items: center; gap: 6px; 
             cursor: pointer; 
             white-space: nowrap; 
-            transition: font-size 0.3s ease;
+            transition: all 0.3s ease;
         }
-        header.shrink .logo { font-size: 1.1rem; }
-
-        .logo i { color: var(--secondary); font-size: 1.2rem; }
+        /* NEW: Logo Image Styling */
+        .logo-img {
+            height: 45px; /* Constrain height for consistency */
+            width: auto; /* Maintain aspect ratio */
+            object-fit: contain; /* Ensure image fits box */
+            transition: height 0.3s ease, transform 0.3s ease;
+        }
+        
+        /* Shrink logo slightly */
+        header.shrink .logo-img {
+            height: 40px;
+        }
 
         .nav-menu { display: flex; gap: 20px; align-items: center; }
         
@@ -383,8 +390,9 @@
     <!-- Header Navigation -->
     <header id="mainHeader">
         <div class="container nav-container">
+            <!-- UPDATED LOGO: Image instead of text -->
             <div class="logo" onclick="switchPage('home')">
-                <i class="fa-solid fa-tooth"></i> Klinik Pergigian Azam
+                <img src="https://github.com/ddnetwork-ent/clinic-azam-dental/blob/main/IMG_2260.JPG" alt="Klinik Pergigian Azam" class="logo-img">
             </div>
             
             <div class="mobile-toggle" id="mobileToggle">
@@ -419,15 +427,15 @@
                         <p data-i18n="hero-desc">Experience premium dental care in Sungai Petani. We combine expert treatment with a gentle touch to ensure your comfort.</p>
                         <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: inherit;">
                             <button class="btn-modern" onclick="switchPage('book')"><span data-i18n="btn-book-main">Book Appointment</span></button>
-                            <!-- NEW: Google Review Button -->
+                            <!-- Google Review Button -->
                             <a href="https://www.google.com/search?q=klinik+pergigian+azam+sp+saujana&sca_esv=711918703c73458c&sxsrf=AE3TifPjwoJY_1fBgDdwZIObNxuwY9Ft9w%3A1766740853191&ei=dVNOadGwC86YseMP_YWHmQE&oq=klinik+pergigian+azam+sp++reviews&gs_lp=Egxnd3Mtd2l6LXNlcnAiIWtsaW5payBwZXJnaWdpYW4gYXphbSBzcCAgcmV2aWV3cyoCCAAyCBAAGIAEGKIEMggQABiABBiiBEiCFFC7BVjxCXABeACQAQCYAWugAcMCqgEDMy4xuAEByAEA-AEBmAIFoALdAsICCRAAGLADGAgYHsICCxAAGIAEGLADGKIEwgIEECMYJ8ICBhAAGAcYHsICCBAAGAcYCBgemAMAiAYBkAYHkgcDMy4yoAfUELIHAzIuMrgH2QLCBwUwLjEuNMgHEoAIAA&sclient=gws-wiz-serp#lrd=0x304b2babfbeeb669:0x6e5896c0d74e7871,3,,," target="_blank" class="btn-google-review">
                                 <i class="fa-brands fa-google"></i> Google Review
                             </a>
                         </div>
                     </div>
                     <div class="hero-img">
-                        <!-- NEW CUSTOM IMAGE -->
-                        <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/IMG_2260.JPG" alt="Klinik Pergigian Azam">
+                        <!-- UPDATED IMAGE -->
+                        <img src="https://github.com/ddnetwork-ent/clinic-azam-dental/blob/main/image.png" alt="Klinik Pergigian Azam">
                     </div>
                 </div>
             </div>
@@ -443,7 +451,7 @@
 
                 <div class="about-content">
                     <div class="about-img">
-                        <!-- NEW CUSTOM IMAGE -->
+                        <!-- IMAGE (Remains IMG_2260.JPG as before) -->
                         <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/IMG_2260.JPG" alt="Clinic Interior" style="border-radius: 20px; box-shadow: var(--shadow-md);">
                     </div>
                     <div class="about-text">
@@ -610,7 +618,6 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <!-- UPDATED COPYRIGHT -->
             <p>&copy; 2025 DDNetwork One. All Rights Reserved.</p>
         </div>
     </footer>
@@ -857,15 +864,13 @@
         dateInput.addEventListener('input', function(e) {
             const selectedDate = new Date(this.value);
             const nowDate = new Date();
-            // Reset time to default if user picks new date
-            timeInput.value = "09:00";
             
             if (selectedDate < nowDate.setHours(0,0,0,0)) {
                 this.value = getMinDate(); // Reset to today
-                if(this.value === getMinDate()) {
-                     timeInput.value = "09:00";
-                }
+                // Reset time to default if user picks new date
+                timeInput.value = "09:00";
                 showToastWarning(translations[currentLang]['error-early']); 
+                return;
             }
             // If date changes in future, default time to 9am for safety
             timeInput.value = "09:00";
@@ -955,11 +960,6 @@
                 btn.disabled = false;
             });
         });
-
-        function getCurrentTime() {
-            const now = new Date();
-            return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        }
     </script>
 </body>
 </html>
