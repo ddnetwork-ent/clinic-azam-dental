@@ -52,7 +52,7 @@
         ul { list-style: none; }
         img { max-width: 100%; height: auto; display: block; object-fit: cover; }
         
-        /* ADJUSTMENT: Increased right padding to move hamburger further right */
+        /* Container Padding */
         .container { width: 95%; max-width: 1100px; margin: 0 auto; padding: 0 25px 0 15px; }
 
         /* --- Header & Navigation --- */
@@ -133,6 +133,18 @@
         }
         
         .btn-modern:active { transform: translateY(0); }
+
+        /* NEW: Google Review Button */
+        .btn-google-review {
+            background: #fff; color: #4285F4; 
+            padding: 10px 20px; border-radius: 30px; 
+            font-weight: 600; font-size: 0.85rem;
+            border: 1px solid #e2e8f0; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .btn-google-review:hover { background: #f1f5f9; transform: translateY(-2px); }
 
         /* Map Buttons */
         .btn-map-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
@@ -301,10 +313,10 @@
         .toast-content h4 { margin:0; font-size: 0.9rem; color: white; font-weight: 700; }
         .toast-content p { margin:0; font-size: 0.8rem; opacity: 0.9; }
 
-        /* ADJUSTMENT: Floating WhatsApp moved UP */
+        /* Floating WhatsApp */
         .float-wa {
             position: fixed; 
-            bottom: 100px; /* Changed from 25px to 100px */
+            bottom: 100px; 
             left: 25px; 
             background-color: #25D366;
             color: #FFF; border-radius: 50px; text-align: center; font-size: 30px;
@@ -312,10 +324,7 @@
             display: flex; align-items: center; justify-content: center;
             width: 60px; height: 60px; transition: var(--transition); text-decoration: none;
         }
-        .float-wa:hover {
-            transform: scale(1.1);
-            background-color: #1fad55;
-        }
+        .float-wa:hover { transform: scale(1.1); background-color: #1fad55; }
 
         /* Spinner for Button */
         .spinner {
@@ -408,10 +417,17 @@
                     <div class="hero-text">
                         <h1 data-i18n="hero-title">Your Brightest Smile Starts Here</h1>
                         <p data-i18n="hero-desc">Experience premium dental care in Sungai Petani. We combine expert treatment with a gentle touch to ensure your comfort.</p>
-                        <button class="btn-modern" onclick="switchPage('book')"><span data-i18n="btn-book-main">Book Appointment</span></button>
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: inherit;">
+                            <button class="btn-modern" onclick="switchPage('book')"><span data-i18n="btn-book-main">Book Appointment</span></button>
+                            <!-- NEW: Google Review Button -->
+                            <a href="https://www.google.com/search?q=klinik+pergigian+azam+sp+saujana&sca_esv=711918703c73458c&sxsrf=AE3TifPjwoJY_1fBgDdwZIObNxuwY9Ft9w%3A1766740853191&ei=dVNOadGwC86YseMP_YWHmQE&oq=klinik+pergigian+azam+sp++reviews&gs_lp=Egxnd3Mtd2l6LXNlcnAiIWtsaW5payBwZXJnaWdpYW4gYXphbSBzcCAgcmV2aWV3cyoCCAAyCBAAGIAEGKIEMggQABiABBiiBEiCFFC7BVjxCXABeACQAQCYAWugAcMCqgEDMy4xuAEByAEA-AEBmAIFoALdAsICCRAAGLADGAgYHsICCxAAGIAEGLADGKIEwgIEECMYJ8ICBhAAGAcYHsICCBAAGAcYCBgemAMAiAYBkAYHkgcDMy4yoAfUELIHAzIuMrgH2QLCBwUwLjEuNMgHEoAIAA&sclient=gws-wiz-serp#lrd=0x304b2babfbeeb669:0x6e5896c0d74e7871,3,,," target="_blank" class="btn-google-review">
+                                <i class="fa-brands fa-google"></i> Google Review
+                            </a>
+                        </div>
                     </div>
                     <div class="hero-img">
-                        <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/image.png" alt="Klinik Pergigian Azam">
+                        <!-- NEW CUSTOM IMAGE -->
+                        <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/IMG_2260.JPG" alt="Klinik Pergigian Azam">
                     </div>
                 </div>
             </div>
@@ -427,7 +443,8 @@
 
                 <div class="about-content">
                     <div class="about-img">
-                        <img src="https://picsum.photos/seed/dentalinterior/600/600" alt="Clinic Interior" style="border-radius: 20px; box-shadow: var(--shadow-md);">
+                        <!-- NEW CUSTOM IMAGE -->
+                        <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/IMG_2260.JPG" alt="Clinic Interior" style="border-radius: 20px; box-shadow: var(--shadow-md);">
                     </div>
                     <div class="about-text">
                         <h2 style="font-size: 1.6rem; margin-bottom: 15px;" data-i18n="about-who">Who We Are</h2>
@@ -593,7 +610,8 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2023 Klinik Pergigian Azam. All Rights Reserved.</p>
+            <!-- UPDATED COPYRIGHT -->
+            <p>&copy; 2025 DDNetwork One. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -809,7 +827,7 @@
         timeInput.min = "09:00";
         timeInput.max = "18:00";
         
-        // Set initial values logic
+        // Set initial values to now (or 9am if closed)
         let now = new Date();
         if (now.getDay() === 0 || now.getHours() >= 18 || now.getHours() < 9) {
              // Move to valid opening
@@ -839,15 +857,15 @@
         dateInput.addEventListener('input', function(e) {
             const selectedDate = new Date(this.value);
             const nowDate = new Date();
+            // Reset time to default if user picks new date
+            timeInput.value = "09:00";
             
             if (selectedDate < nowDate.setHours(0,0,0,0)) {
                 this.value = getMinDate(); // Reset to today
-                // Reset time to 9am if date changes back to today
                 if(this.value === getMinDate()) {
                      timeInput.value = "09:00";
                 }
                 showToastWarning(translations[currentLang]['error-early']); 
-                return;
             }
             // If date changes in future, default time to 9am for safety
             timeInput.value = "09:00";
@@ -897,20 +915,30 @@
             }
         });
 
-        // 6. Form Handling
+        // 6. Form Handling (AJAX - No Reload)
         const form = document.getElementById('appointmentForm');
 
         form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent page reload
+
             const btn = form.querySelector('button');
             const originalContent = btn.innerHTML;
             
+            // Show Spinner
             btn.innerHTML = '<div class="spinner"></div>';
             btn.style.opacity = '0.7';
             btn.disabled = true;
 
-            setTimeout(() => {
+            // Use Fetch to send data without leaving page
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            })
+            .then(response => {
+                // If successful (200 OK), show Thank You Page
                 switchPage('thank-you');
                 
+                // Reset Button
                 btn.innerHTML = originalContent;
                 btn.style.opacity = '1';
                 btn.disabled = false;
@@ -918,8 +946,20 @@
                 // Reset date/time
                 dateInput.valueAsDate = new Date(); 
                 timeInput.value = getCurrentTime();
-            }, 1000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Submission failed. Please try again.');
+                btn.innerHTML = originalContent;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            });
         });
+
+        function getCurrentTime() {
+            const now = new Date();
+            return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        }
     </script>
 </body>
 </html>
