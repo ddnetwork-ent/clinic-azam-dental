@@ -79,17 +79,20 @@
             transition: all 0.3s ease;
         }
 
-        /* Logo Image Styling */
+        /* Logo Image Styling - CIRCULAR VERSION */
         .logo-img {
-            height: 45px; /* Constrain height for consistency */
-            width: auto; /* Maintain aspect ratio */
-            object-fit: contain; /* Ensure image fits box */
+            height: 45px;
+            width: 45px; /* Force square to make a perfect circle */
+            border-radius: 50%; /* Make it circular */
+            object-fit: cover; /* Ensure image fills the circle */
+            background-color: white; /* White background in case of transparency */
             transition: height 0.3s ease, transform 0.3s ease;
         }
         
         /* Shrink logo slightly */
         header.shrink .logo-img {
             height: 40px;
+            width: 40px; /* Adjust width for shrink */
         }
 
         /* Logo Text Styling */
@@ -408,7 +411,7 @@
         <div class="container nav-container">
             <!-- Logo (Image Left + Text) -->
             <div class="logo" onclick="switchPage('home')">
-                <!-- Logo Image (Left) - Updated URL -->
+                <!-- Logo Image (Left) - Circular CSS -->
                 <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/IMG_2260.JPG" alt="Klinik Pergigian Azam" class="logo-img">
                 <!-- Text -->
                 <span>Klinik Pergigian Azam</span>
@@ -453,8 +456,8 @@
                         </div>
                     </div>
                     <div class="hero-img">
-                        <!-- Home Page Image - Updated URL -->
-                        <img src="https://raw.githubusercontent.com/ddnetwork-ent/clinic-azam-dental/main/Clinic.webp" alt="Klinik Pergigian Azam">
+                        <!-- Home Page Image (Clinic.webp) -->
+                        <img src="https://github.com/ddnetwork-ent/clinic-azam-dental/blob/main/Clinic.webp" alt="Klinik Pergigian Azam">
                     </div>
                 </div>
             </div>
